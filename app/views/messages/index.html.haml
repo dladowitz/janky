@@ -1,0 +1,27 @@
+%h1 Welcome to the Janky Chat App
+
+
+#display
+  - @messages.each do |message|
+    %li= message.text
+
+%br
+
+
+= form_for @message do |f|
+  = f.text_area :text
+  %br
+  = f.submit
+
+
+:javascript
+  var getMessages = function() {
+    $.get("/messages.json", function(data) {
+      $("#display").html("")
+      $.each(data, function(index, message) {
+        $("#display").append("<li>" + message.text + "</li>")
+      })
+    })
+  }
+
+  setInterval(getMessages, 1000)
